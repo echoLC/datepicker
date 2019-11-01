@@ -1,8 +1,8 @@
 <template>
   <div class="basic">
-    <datepicker v-model="date">
+    <datepicker v-model="date"/>
 
-    <button @click="getCurrentDate"></button>  
+    <button @click="getCurrentDate"></button>
   </div>
 </template>
 
