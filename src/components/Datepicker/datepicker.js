@@ -28,6 +28,8 @@ import {
 } from './utils/index'
 import { transformDate } from './utils/transform'
 
+require('./index.scss')
+
 export default {
   name: ROOT_COMPONENT_NAME,
 
@@ -61,7 +63,7 @@ export default {
 
     format: {
       type: [String, Object],
-      default: 'YYYY-MM-DD'
+      default: 'yyyy-MM-dd'
     },
 
     type: {

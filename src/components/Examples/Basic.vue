@@ -2,7 +2,9 @@
   <div class="basic">
     <datepicker v-model="date"/>
 
-    <button @click="getCurrentDate"></button>
+    <div class="button">
+      <button @click="getCurrentDate">get current date</button>
+    </div>
   </div>
 </template>
 
@@ -18,12 +20,14 @@ export default {
 
   data () {
     return {
-      date: new Date()
+      date: '2019-11-01'
     }
   },
 
-  getCurrentDate () {
-    console.log(this.date)
+  methods: {
+    getCurrentDate () {
+      console.log(this.date)
+    }
   }
 }
 </script>
@@ -32,5 +36,8 @@ export default {
 .basic {
   margin: 0;
   padding: 20px;
+}
+.button {
+  margin-top: 20px;
 }
 </style>
