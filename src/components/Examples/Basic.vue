@@ -1,6 +1,14 @@
 <template>
   <div class="basic">
-    <datepicker v-model="date"/>
+    <div class="date-wrapper">
+      <span>basic date: </span>
+      <datepicker v-model="date"/>
+    </div>
+
+    <div class="date-wrapper">
+      <span>date range：</span>
+      <datepicker v-model="rangeDate" range/>
+    </div>
 
     <div class="button">
       <button @click="getCurrentDate">get current date</button>
@@ -20,13 +28,15 @@ export default {
 
   data () {
     return {
-      date: '2019-11-01'
+      date: '2019-11-01',
+      rangeDate: ['2019-10-29', '2019-10-31']
     }
   },
 
   methods: {
     getCurrentDate () {
-      console.log(this.date)
+      console.log('date', this.date)
+      console.log('range date', this.rangeDate)
     }
   }
 }
@@ -37,7 +47,12 @@ export default {
   margin: 0;
   padding: 20px;
 }
+
+.date-wrapper {
+  margin-bottom: 30px;
+}
+
 .button {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 </style>

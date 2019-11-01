@@ -1,4 +1,4 @@
-import parse from 'date-fns/parse'
+import fecha from 'fecha'
 import format from 'date-fns/format'
 
 export function isPlainObject (obj) {
@@ -68,7 +68,7 @@ export function formatDate (date, formatStr) {
 
 export function parseDate (value, format) {
   try {
-    return parse(value, format) || null
+    return fecha.parse(value, format) || null
   } catch (e) {
     return null
   }
