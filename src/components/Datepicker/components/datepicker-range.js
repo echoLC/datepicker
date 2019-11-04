@@ -144,6 +144,9 @@ export default {
 
     initLeftAndRightDate () {
       let [minDate, maxDate] = this.currentValue
+      if (!minDate || !maxDate) {
+        return
+      }
       const diff = new Date(maxDate).getTime() - new Date(minDate).getTime()
       if (diff <= THIRTY_DAYS_MILLION_SECONDS) {
         maxDate = nextMonth(minDate)
@@ -154,7 +157,7 @@ export default {
 
     handleValueChange (value) {
       const { value2date } = transformDate.date
-      this.currentValue = this.isValidRangeValue(value) ? value.map(value2date) : this.getDefaultRangeValue()
+      this.currentValue = this.isValidRangeValue(value) ? value.map(value2date) : [null, null]
     },
 
     getDefaultRangeValue () {

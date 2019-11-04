@@ -134,7 +134,11 @@ export default {
       set (val) {
         const { year, month } = getYearMonthDate(val)
         this.calendarYear = year
-        this.calendarMonth = month
+        if (this.index === 1 && this.isSameComparedWithSibling()) {
+          this.calendarMonth = month + 1
+        } else {
+          this.calendarMonth = month
+        }
       }
     },
 
