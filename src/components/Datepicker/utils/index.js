@@ -1,5 +1,4 @@
 import fecha from 'fecha'
-import format from 'date-fns/format'
 
 export function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
@@ -55,15 +54,31 @@ export function formatTime (time, type = '24', a = 'a') {
   return result
 }
 
-export function formatDate (date, formatStr) {
-  if (!date) {
+export function formatDate (date, format) {
+  if (!isValidDate(date)) {
     return ''
   }
-  try {
-    return format(new Date(date), formatStr)
-  } catch (e) {
-    return ''
+  let str = format || 'yyyy-MM-dd'
+  str = str.replace(/yyyy|YYYY/, date.getFullYear())
+  str = str.replace(/yy|YY/, (date.getYear() % 100) > 9 ? (date.getYear() % 100).toString() : '0' + (date.getYear() % 100))
+  str = str.replace(/MM/, addZero(date.getMonth() + 1))
+  str = str.replace(/M/g, date.getMonth() + 1)
+  str = str.replace(/dd|DD/, addZero(date.getDate()))
+  str = str.replace(/d|D/g, date.getDate())
+  str = str.replace(/hh|HH/, addZero(date.getHours()))
+  str = str.replace(/h|H/g, date.getHours())
+  str = str.replace(/mm/, addZero(date.getMinutes()))
+  str = str.replace(/m/g, date.getMinutes())
+  str = str.replace(/ss|SS/, addZero(date.getSeconds()))
+  str = str.replace(/s|S/g, date.getSeconds())
+  return str
+}
+
+export const addZero = val => {
+  if (isNaN(val)) {
+    return val
   }
+  return val > 9 ? val : `0${val}`
 }
 
 export function parseDate (value, format) {

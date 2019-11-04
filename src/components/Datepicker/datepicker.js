@@ -616,12 +616,11 @@ export default {
     },
 
     renderInput () {
-      const { pickerInputClass, inputName, inputAttr, disabled, editable, text, inputPlaceholder } = this
+      const { pickerInputClass, inputName, disabled, editable, text, inputPlaceholder } = this
       return (
         <input
           class={pickerInputClass}
           name={inputName}
-          {...{ inputAttr }}
           ref="input"
           type="text"
           autocomplete="off"

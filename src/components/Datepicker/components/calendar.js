@@ -1,16 +1,16 @@
 /** utils */
-import { isValidDate, isDateObejct, formatDate, getYearMonthDate } from './utils/index'
-import scrollIntoView from './utils/scroll-into-view'
+import { isValidDate, isDateObejct, formatDate, getYearMonthDate } from '../utils/index'
+import scrollIntoView from '../utils/scroll-into-view'
 
 /** mixins */
-import locale from './mixins/locale'
-import emitter from './mixins/emitter'
+import locale from '../mixins/locale'
+import emitter from '../mixins/emitter'
 
 /** components */
-import PanelDate from './panel/date'
-import PanelYear from './panel/year'
-import PanelMonth from './panel/month'
-import PanelTime from './panel/time'
+import PanelDate from '../panel/date'
+import PanelYear from '../panel/year'
+import PanelMonth from '../panel/month'
+import PanelTime from '../panel/time'
 
 export default {
   name: 'CalendarPanel',
@@ -53,7 +53,7 @@ export default {
 
     dateFormat: {
       type: String,
-      default: 'YYYY-MM-DD'
+      default: 'yyyy-MM-dd'
     },
 
     index: Number,

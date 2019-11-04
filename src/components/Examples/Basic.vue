@@ -5,10 +5,10 @@
       <datepicker v-model="date"/>
     </div>
 
-    <div class="date-wrapper">
+    <!-- <div class="date-wrapper">
       <span>date range：</span>
       <datepicker v-model="rangeDate" range/>
-    </div>
+    </div> -->
 
     <div class="button">
       <button @click="getCurrentDate">get current date</button>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Datepicker from '../Datepicker/datepicker'
+import Datepicker from '../Datepicker/index'
 
 export default {
   name: 'Basic',
@@ -28,7 +28,7 @@ export default {
 
   data () {
     return {
-      date: '2019-11-01',
+      date: '',
       rangeDate: ['2019-10-29', '2019-10-31']
     }
   },
