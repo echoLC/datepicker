@@ -2,7 +2,7 @@
   <div class="basic">
     <div class="date-wrapper">
       <span>basic date: </span>
-      <datepicker v-model="date"/>
+      <datepicker type="date" v-model="date"/>
     </div>
 
     <!-- <div class="date-wrapper">

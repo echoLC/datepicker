@@ -294,6 +294,11 @@ export default {
       this.updateDate() && this.toggleCalendarPopupVisible(false)
     },
 
+    selectTime (time) {
+      this.currentValue = time
+      this.updateDate() && this.toggleCalendarPopupVisible()
+    },
+
     toggleCalendarPopupVisible (visible) {
       if (this.disabled) {
         return
@@ -396,7 +401,8 @@ export default {
           date-format={innerDateFormat}
           value={currentValue}
           visible={popupVisible}
-          on-select-date={ $event => this.selectDate($event) }/>
+          on-select-date={ $event => this.selectDate($event) }
+          on-select-time={ $event => this.selectTime($event) }/>
       )
     },
 

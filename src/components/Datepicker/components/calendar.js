@@ -546,7 +546,7 @@ export default {
       return (
         <div class="mx-calendar-content">
           <panel-date
-            v-show={panel === 'DATE'}
+            v-show={panel === 'DATE' || 'DATETIME'}
             value={value}
             date-format={dateFormat}
             calendar-month={calendarMonth}
