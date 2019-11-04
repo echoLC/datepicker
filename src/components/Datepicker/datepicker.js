@@ -314,7 +314,6 @@ export default {
   },
 
   methods: {
-
     initCalendar () {
       this.handleValueChange(this.value)
       this.range && this.initLeftAndRightDate()

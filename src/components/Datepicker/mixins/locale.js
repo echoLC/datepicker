@@ -1,5 +1,4 @@
 import Languages from '../locale/languages'
-import { ROOT_COMPONENT_NAME } from '../utils/constants'
 import { isPlainObject } from '../utils/index'
 
 const defaultLang = Languages.zh
@@ -16,11 +15,11 @@ export default {
 
     getRootComponent () {
       let component = this
-      let name = component.$options.name
-      while (component && (name !== ROOT_COMPONENT_NAME)) {
+      let pickerRoot = component.$options.pickerRoot
+      while (component && !pickerRoot) {
         component = component.$parent
         if (component) {
-          name = component.$options.name
+          pickerRoot = component.$options.pickerRoot
         }
       }
       return component
