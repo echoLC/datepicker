@@ -117,9 +117,11 @@ export default {
     const calendarYear = year
     const calendarMonth = month
     const firstYear = Math.floor(calendarYear / 10) * 10
+
     return {
       panel: 'NONE',
       dates: [],
+      initMonth: false,
       calendarMonth,
       calendarYear,
       firstYear
@@ -136,8 +138,12 @@ export default {
         this.calendarYear = year
         if (this.index === 1 && this.isSameComparedWithSibling()) {
           this.calendarMonth = month + 1
+          this.initMonth = true
         } else {
-          this.calendarMonth = month
+          if (!this.initMonth) {
+            this.calendarMonth = month
+            this.initMonth = true
+          }
         }
       }
     },
@@ -544,13 +550,14 @@ export default {
         timePickerOptions,
         timeSelectOptions,
         timeType,
-        isDisabledTime
+        isDisabledTime,
+        firstYear
       } = this
       const monthValue = this.index === 0 ? this.minDate : this.maxDate
       return (
         <div class="mx-calendar-content">
           <panel-date
-            v-show={panel === 'DATE' || 'DATETIME'}
+            v-show={panel === 'DATE'}
             value={value}
             date-format={dateFormat}
             calendar-month={calendarMonth}
@@ -564,6 +571,7 @@ export default {
           <panel-year
             v-show={panel === 'YEAR'}
             value={value}
+            first-year={firstYear}
             disabled-year={isDisabledYear}
             on-select={this.selectYear}
           />

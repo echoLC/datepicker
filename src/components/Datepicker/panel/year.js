@@ -6,6 +6,8 @@ export default {
   props: {
     value: null,
 
+    firstYear: Number,
+
     disabledYear: Function
   },
 
@@ -25,7 +27,7 @@ export default {
     },
 
     getYearCellClass (year) {
-      const { year: currentYear } = getYearMonthDate(this.value)
+      const { year: currentYear } = this.value ? getYearMonthDate(this.value) : {}
 
       return {
         cell: true,
@@ -37,8 +39,7 @@ export default {
 
   render (h) {
     // 获取当前年的往前十年
-    const { year: currentYear } = getYearMonthDate(this.value)
-    const firstYear = Math.floor(currentYear / 10) * 10
+    const firstYear = Math.floor(this.firstYear / 10) * 10
 
     const years = Array.apply(null, { length: 10 }).map((_, i) => {
       const year = firstYear + i
