@@ -116,6 +116,10 @@ export default {
         }
       ]
       return arr
+    },
+
+    showClearIcon () {
+      return !this.disabled && this.clearable && this.isValidRangeValue(this.value)
     }
   },
 
@@ -186,7 +190,7 @@ export default {
     },
 
     updateDate () {
-      if (this.confirm || this.disabled) {
+      if (this.disabled) {
         return false
       }
       const equal = this.isEquaRangeDate(this.value, this.currentValue)
@@ -201,7 +205,7 @@ export default {
     confirmDate () {
       const valid = isValidRangeDate(this.currentValue)
       if (valid) {
-        this.updateDate(true)
+        this.updateDate()
       }
       this.emitDate('confirm')
       this.toggleCalendarPopupVisible(false)
@@ -273,14 +277,14 @@ export default {
     },
 
     renderPickerFooter () {
-      const { confirmDate, closePopup, confirmText, confirm, cancelText } = this
+      const { confirmDate, toggleCalendarPopupVisible, confirmText, confirm, cancelText } = this
       if (confirm) {
         return (
           <slot name="picker-footer" confirm={confirmDate}>
             <div class="mx-datepicker-footer">
               <button type="button"
                 class="mx-datepicker-btn mx-datepicker-btn-cancel"
-                onClick={ $event => closePopup($event) }>{ cancelText }</button>
+                onClick={ $event => toggleCalendarPopupVisible(false, $event) }>{ cancelText }</button>
               <button type="button"
                 class="mx-datepicker-btn mx-datepicker-btn-confirm"
                 onClick={ $event => confirmDate($event) }>{ confirmText }</button>

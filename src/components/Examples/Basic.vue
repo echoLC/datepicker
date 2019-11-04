@@ -7,7 +7,7 @@
 
     <div class="date-wrapper">
       <span>date range：</span>
-      <datepicker-range v-model="rangeDate"/>
+      <datepicker-range v-model="rangeDate" clearable/>
     </div>
 
     <div class="button">

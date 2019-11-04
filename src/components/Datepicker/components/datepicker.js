@@ -35,6 +35,10 @@ export default {
           ? this.stringifyDate(value2date(this.value))
           : ''
       }
+    },
+
+    showClearIcon () {
+      return !this.disabled && this.clearable && this.isValidValue(this.value)
     }
   },
 
