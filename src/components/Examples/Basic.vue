@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       date: '',
-      rangeDate: ['2019-10-29', '2019-10-31']
+      rangeDate: [null, null]
     }
   },
 

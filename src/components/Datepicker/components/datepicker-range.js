@@ -10,7 +10,8 @@ import {
 
 /** utils */
 import {
-  nextMonth
+  nextMonth,
+  isValidRangeDate
 } from '../utils/index'
 import { transformDate } from '../utils/transform'
 
@@ -149,13 +150,13 @@ export default {
 
     handleValueChange (value) {
       const { value2date } = transformDate.date
-      this.currentValue = this.isValidRangeValue(value) ? value.map(value2date) : [null, null]
+      this.currentValue = this.isValidRangeValue(value) ? value.map(value2date) : this.getDefaultRangeValue()
     },
 
     getDefaultRangeValue () {
       let date = new Date()
       date = date.setMonth(date.getMonth() + 1)
-      return [new Date(), date]
+      return [new Date(), new Date(date)]
     },
 
     isValidRangeValue (value) {
@@ -195,6 +196,15 @@ export default {
       this.emitDate('input')
       this.emitDate('change')
       return true
+    },
+
+    confirmDate () {
+      const valid = isValidRangeDate(this.currentValue)
+      if (valid) {
+        this.updateDate(true)
+      }
+      this.emitDate('confirm')
+      this.toggleCalendarPopupVisible(false)
     },
 
     isEquaRangeDate (a, b) {
@@ -260,6 +270,27 @@ export default {
       this.currentValue = date
       this.updateDate()
       this.$emit('clear')
+    },
+
+    renderPickerFooter () {
+      const { confirmDate, closePopup, confirmText, confirm, cancelText } = this
+      if (confirm) {
+        return (
+          <slot name="picker-footer" confirm={confirmDate}>
+            <div class="mx-datepicker-footer">
+              <button type="button"
+                class="mx-datepicker-btn mx-datepicker-btn-cancel"
+                onClick={ $event => closePopup($event) }>{ cancelText }</button>
+              <button type="button"
+                class="mx-datepicker-btn mx-datepicker-btn-confirm"
+                onClick={ $event => confirmDate($event) }>{ confirmText }</button>
+            </div>
+          </slot>
+        )
+      }
+      return (
+        <slot name="picker-footer" confirm={confirmDate}></slot>
+      )
     },
 
     renderPickerShortcuts () {
@@ -330,6 +361,7 @@ export default {
             { this.renderRangeCalendarPanel() }
             { this.renderPickerShortcuts() }
           </div>
+          { this.renderPickerFooter() }
         </div>
       )
     }
