@@ -18,7 +18,8 @@
 
 <script>
 import Datepicker from '../Datepicker/index'
-import DatepickerRange from '../Datepicker/components/datepicker-range'
+
+const DatepickerRange = Datepicker.Range
 
 export default {
   name: 'Basic',
