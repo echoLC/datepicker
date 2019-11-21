@@ -1,5 +1,5 @@
 /** utils */
-import { isValidDate, isDateObejct, formatDate, getYearMonthDate } from '../utils/index'
+import { isValidDate, getYearMonthDate } from '../utils/index'
 import scrollIntoView from '../utils/scroll-into-view'
 
 /** mixins */
@@ -10,7 +10,6 @@ import emitter from '../mixins/emitter'
 import PanelDate from '../panel/date'
 import PanelYear from '../panel/year'
 import PanelMonth from '../panel/month'
-import PanelTime from '../panel/time'
 
 export default {
   name: 'CalendarPanel',
@@ -18,8 +17,7 @@ export default {
   components: {
     PanelDate,
     PanelYear,
-    PanelMonth,
-    PanelTime
+    PanelMonth
   },
 
   mixins: [locale, emitter],
@@ -48,7 +46,7 @@ export default {
 
     type: {
       type: String,
-      default: 'date' // ['date', 'datetime'] zendy added 'month', 'year', mxie added "time"
+      default: 'date' // ['date', 'month', 'year']
     },
 
     dateFormat: {
@@ -88,26 +86,6 @@ export default {
       type: [Array, Function],
       default: function () {
         return []
-      }
-    },
-
-    minuteStep: {
-      type: Number,
-      default: 0,
-      validator: val => val >= 0 && val <= 60
-    },
-
-    timeSelectOptions: {
-      type: Object,
-      default () {
-        return null
-      }
-    },
-
-    timePickerOptions: {
-      type: [Object, Function],
-      default () {
-        return null
       }
     }
   },
@@ -152,33 +130,12 @@ export default {
       return this.minDate ? this.minDate : (this.maxDate ? this.maxDate : this.value)
     },
 
-    timeType () {
-      const h = /h+/.test(this.$parent.format) ? '12' : '24'
-      const a = /A/.test(this.$parent.format) ? 'A' : 'a'
-      return [h, a]
-    },
-
-    timeHeader () {
-      if (this.type === 'time') {
-        return this.$parent.format
-      }
-      return this.value && formatDate(this.value, this.dateFormat)
-    },
-
     yearHeader () {
       return this.firstYear + ' ~ ' + (this.firstYear + 9)
     },
 
     months () {
       return this.getLocalValue('months')
-    },
-
-    notBeforeTime () {
-      return this.getCriticalTime(this.notBefore)
-    },
-
-    notAfterTime () {
-      return this.getCriticalTime(this.notAfter)
     }
   },
 
@@ -311,44 +268,7 @@ export default {
       return this.inDisabledDays(time)
     },
 
-    isDisabledTime (date, leftDate, rightDate) {
-      const time = new Date(date).getTime()
-      return (
-        this.inBefore(time, leftDate) ||
-        this.inAfter(time, rightDate) ||
-        this.inDisabledDays(time)
-      )
-    },
-
     selectDate (date) {
-      if (this.type === 'datetime') {
-        let time = new Date(date)
-        if (isDateObejct(this.value)) {
-          time.setHours(
-            this.value.getHours(),
-            this.value.getMinutes(),
-            this.value.getSeconds()
-          )
-        }
-        if (this.isDisabledTime(time)) {
-          time.setHours(0, 0, 0, 0)
-          if (
-            this.notBefore &&
-            time.getTime() < new Date(this.notBefore).getTime()
-          ) {
-            time = new Date(this.notBefore)
-          }
-          if (
-            this.leftDate &&
-            time.getTime() < new Date(this.leftDate).getTime()
-          ) {
-            time = new Date(this.leftDate)
-          }
-        }
-        this.selectTime(time)
-        this.showPanel('TIME')
-        return
-      }
       this.$emit('select-date', date)
     },
 
@@ -371,14 +291,6 @@ export default {
       }
       this.dispatch('DatePicker', 'select-month', [month, this.index])
       this.showPanel('DATE')
-    },
-
-    selectTime (time) {
-      this.$emit('select-time', time, false)
-    },
-
-    pickTime (time) {
-      this.$emit('select-time', time, true)
     },
 
     changeCalendarYear (year) {
@@ -454,13 +366,6 @@ export default {
       this.showPanel('MONTH')
     },
 
-    handleTimeHeader () {
-      if (this.type === 'time') {
-        return
-      }
-      this.showPanel('DATE')
-    },
-
     changePanelYears (flag) {
       this.firstYear = this.firstYear + flag * 10
     },
@@ -472,7 +377,7 @@ export default {
     showChangeYearBtn (panelIndex) {
       const { index, panel } = this
       if (index === -1 || index === panelIndex) {
-        return panel !== 'TIME'
+        return true
       } else {
         const date = panelIndex === 1 ? this.rightDate : this.leftDate
         let { year: calendarYear } = getYearMonthDate(date)
@@ -486,7 +391,7 @@ export default {
           [maxYear, minYear] = [calendarYear, this.calendarYear]
         }
 
-        return (maxYear - minYear > 0 && panel !== 'TIME') || panel === 'YEAR'
+        return (maxYear - minYear > 0) || panel === 'YEAR'
       }
     },
 
@@ -510,7 +415,7 @@ export default {
     },
 
     renderCalendarHeader () {
-      const { panel, months, calendarMonth, calendarYear, yearHeader, timeHeader } = this
+      const { panel, months, calendarMonth, calendarYear, yearHeader } = this
       return (
         <div class="mx-calendar-header">
           <a v-show={this.showChangeYearBtn(0)} class="mx-pre-year-btn" onClick={$event => this.handleIconYear(-1, $event)}></a>
@@ -526,9 +431,6 @@ export default {
             class="mx-current-year"
             onClick={$event => this.handleBtnYear($event)}>{calendarYear}</a>
           <a v-show={panel === 'YEAR'} class="mx-current-year">{yearHeader}</a>
-          <a v-show={panel === 'TIME'}
-            class="mx-time-header"
-            onClick={$event => this.handleTimeHeader($event)}>{timeHeader}</a>
         </div>
       )
     },
@@ -546,11 +448,6 @@ export default {
         isDisabledDate,
         isDisabledMonth,
         isDisabledYear,
-        minuteStep,
-        timePickerOptions,
-        timeSelectOptions,
-        timeType,
-        isDisabledTime,
         firstYear
       } = this
       const monthValue = this.index === 0 ? this.minDate : this.maxDate
@@ -582,23 +479,12 @@ export default {
             calendar-year={calendarYear}
             on-select={this.selectMonth}
           />
-          <panel-time
-            v-show={panel === 'TIME'}
-            minute-step={minuteStep}
-            time-picker-options={timePickerOptions}
-            time-select-options={timeSelectOptions}
-            value={value}
-            disabled-time={isDisabledTime}
-            time-type={timeType}
-            o-select={this.selectTime}
-            on-pick={this.pickTime}
-          />
         </div>
       )
     }
   },
 
-  render (h) {
+  render () {
     const { panel } = this
     const classes = ['mx-calendar', 'mx-calendar-panel-' + panel.toLowerCase()]
     return (

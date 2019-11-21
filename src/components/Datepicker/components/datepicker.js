@@ -78,11 +78,6 @@ export default {
       this.updateDate() && this.toggleCalendarPopupVisible(false)
     },
 
-    selectTime (time) {
-      this.currentValue = time
-      this.updateDate() && this.toggleCalendarPopupVisible()
-    },
-
     handleChange (event) {
       if (this.editable && this.userInput !== null) {
         const value = this.inputText
@@ -113,8 +108,7 @@ export default {
           date-format={innerDateFormat}
           value={currentValue}
           visible={popupVisible}
-          on-select-date={ $event => this.selectDate($event) }
-          on-select-time={ $event => this.selectTime($event) }/>
+          on-select-date={ $event => this.selectDate($event) }/>
       )
     },
 

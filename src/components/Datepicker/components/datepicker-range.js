@@ -226,14 +226,6 @@ export default {
       this.selectRangeDate(date, 1)
     },
 
-    selectStartTime (time) {
-      this.selectStartDate(time)
-    },
-
-    selectEndTime (time) {
-      this.selectEndDate(time)
-    },
-
     selectShortcut (range) {
       if (typeof range.onClick === 'function') {
         const close = range.onClick(this)
@@ -338,8 +330,7 @@ export default {
             left-date={null}
             min-date={minDate}
             visible={popupVisible}
-            on-select-date={ $event => this.selectStartDate($event) }
-            on-select-time={ $event => this.selectStartTime($event) }/>
+            on-select-date={ $event => this.selectStartDate($event) }/>
           <calendar-panel
             index={endIndex}
             type={type}
@@ -349,8 +340,7 @@ export default {
             right-date={null}
             max-date={maxDate}
             visible={popupVisible}
-            on-select-date={ $event => this.selectEndDate($event) }
-            on-select-time={$event => this.selectEndTime($event) }/>
+            on-select-date={ $event => this.selectEndDate($event) }/>
         </div>
       )
     },
