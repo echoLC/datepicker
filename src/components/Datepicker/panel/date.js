@@ -145,7 +145,7 @@ export default {
               data-month={date.month}
               title={this.getCellTitle(date)}
               onClick={this.selectDate.bind(this, date)}>
-              {date.day}
+              <span class="cell-text">{date.day}</span>
             </td>
           )
         })

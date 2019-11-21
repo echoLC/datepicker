@@ -1,5 +1,5 @@
-$default-color: #73879c;
-$primary-color: #5aafe3;
+$default-color: #4e5c6b;
+$primary-color: #48b6a5;
 
 @mixin headerBtn ($deg) {
   content: '';
@@ -67,10 +67,11 @@ $primary-color: #5aafe3;
   position: absolute;
   margin-top: 1px;
   margin-bottom: 1px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid rgba(0,0,0,.15);
   background-color: #fff;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   z-index: 1000;
+  border-radius: 5px;
 }
 
 .mx-input-wrapper {
@@ -165,18 +166,18 @@ $primary-color: #5aafe3;
 }
 
 .mx-range-wrapper {
-  width: 496px;
+  width: 520px;
   overflow: hidden;
 }
 
 .mx-shortcuts-wrapper {
+  width: 140px;
   text-align: left;
   padding: 6px 16px 0 16px;
   line-height: 34px;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
   margin: 0;
   .mx-shortcuts {
-    color: #48576a;
     list-style-type: none;
     white-space: nowrap;
     cursor: pointer;
@@ -213,7 +214,7 @@ $primary-color: #5aafe3;
 
   &:hover {
     color: #fff;
-    border-color: #1280c3;
+    border-color: $primary-color;
     background-color: #1280c3;
   }
 }
@@ -299,21 +300,31 @@ $primary-color: #5aafe3;
 }
 
 .mx-calendar-content {
-  width: 32px * 7;
-  height: 32px * 7;
+  width: 32px * 7 + 12;
+  height: 32px * 7 + 12;
   .cell {
     vertical-align: middle;
     cursor: pointer;
-    border-radius: 2px;
+   
+    .cell-text {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+    }
+
     &:hover {
-      background-color: #eaf8fe;
+      background-color: rgba(72, 182, 165, 0.2);
     }
     &.inrange {
-      background-color: #eaf8fe;
+      background-color: rgba(72, 182, 165, 0.2);
     }
     &.actived {
-      color: #fff;
-      background-color: $primary-color;
+      .cell-text {
+        color: #fff;
+        background-color: $primary-color;
+        border-radius: 50%;
+      }
     }
     &.disabled {
       cursor: not-allowed;
@@ -333,9 +344,9 @@ $primary-color: #5aafe3;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
+ 
   td,
   th {
-    font-size: 12px;
     width: 32px;
     height: 32px;
     padding: 0;
@@ -345,10 +356,11 @@ $primary-color: #5aafe3;
   td {
     &.today {
       color: mix(#fff, $primary-color, 10%);
+      font-weight: bold;
     }
     &.last-month,
     &.next-month {
-      color: #ddd;
+      opacity: 0.4;
     }
   }
 }
